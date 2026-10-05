@@ -1,10 +1,10 @@
-# 📋 Project Detail — Smart Predictive Maintenance Platform (AI + IoT)
+# Project Detail — Smart Predictive Maintenance Platform (AI + IoT)
 
 > ระบบตรวจสอบสภาพเครื่องจักรและคาดการณ์การซ่อมบำรุงล่วงหน้าสำหรับโรงงานอุตสาหกรรมอัจฉริยะ (Industry 4.0)
 
 ---
 
-## 1. 📌 ภาพรวมโปรเจกต์ (Project Overview)
+## 1. ภาพรวมโปรเจกต์
 
 โปรเจกต์นี้มีเป้าหมายเพื่อนำข้อมูลเซนเซอร์ IoT จากเครื่องจักรในสายการผลิตมาจัดเก็บในระบบ **Data Warehouse (Star Schema)** และนำเสนอผ่าน **Interactive Predictive Maintenance Dashboard** เพื่อช่วย:
 1. **ลด Downtime:** แจ้งเตือนความผิดปกติของเครื่องจักรก่อนที่เครื่องจะหยุดทำงานกะทันหัน
@@ -13,7 +13,7 @@
 
 ---
 
-## 2. 📊 ข้อมูลและสถาปัตยกรรม (Data & Data Warehouse)
+## 2. ข้อมูลและสถาปัตยกรรม
 
 ### 2.1 แหล่งข้อมูล (Source Dataset: `ai4i2020.csv`)
 ชุดข้อมูลจำลองสภาพเครื่องจักรอุตสาหกรรมจริง มีทั้งหมด **10,000 แถว 14 คอลัมน์** (ไม่มีค่า Null):
@@ -48,7 +48,7 @@
 
 ---
 
-## 3. 🖥️ หน้า Dashboard และฟังก์ชันการทำงาน
+## 3. หน้า Dashboard และฟังก์ชันการทำงาน
 
 Dashboard ถูกพัฒนาด้วยเทคโนโลยีเว็บสมัยใหม่ **(HTML5 + Vanilla CSS + JavaScript ApexCharts + Python Local API Server)** ในธีม **Cyber-Industrial Dark Mode (Glassmorphism)** ประกอบด้วย 3 ส่วนหลัก:
 
@@ -77,7 +77,7 @@ Dashboard ถูกพัฒนาด้วยเทคโนโลยีเว�
 
 ---
 
-## 4. 🚀 วิธีการเปิดใช้งาน (How to Run)
+## 4. วิธีการเปิดใช้งาน
 
 ### วิธีที่ 1: ดับเบิ้ลคลิกไฟล์รันอัตโนมัติ (แนะนำบน Windows)
 ดับเบิ้ลคลิกที่ไฟล์:
