@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Predictive Maintenance Platform — AI & IoT Dashboard</title>
+  
+  <!-- Modern Industrial Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- ApexCharts CDN for Ultra-Smooth Charts -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background Animated Cyber Grid -->
+  <div class="ambient-glow glow-cyan"></div>
+  <div class="ambient-glow glow-indigo"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+          <circle cx="12" cy="12" r="4"></circle>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-title">AURA-IoT <span>Predictive</span></h1>
+        <p class="brand-subtitle">Smart Predictive Maintenance Platform • AI4I Industry 4.0</p>
+      </div>
+    </div>
+
+    <!-- System Status & Controls -->
+    <div class="nav-controls">
+      <div class="system-status">
+        <span class="pulse-dot"></span>
+        <span class="status-text">IoT Gateway: <strong>CONNECTED</strong></span>
+      </div>
+      <div class="system-status">
+        <span class="badge-ai">AI Model: ONLINE (98.4% Acc)</span>
+      </div>
+      
+      <!-- Live Clock -->
+      <div class="live-clock" id="liveClock">--:--:-- UTC</div>
+
+      <!-- Live Stream Simulator Toggle -->
+      <button class="btn btn-simulate" id="toggleSimulatorBtn">
+        <span class="play-icon">▶</span>
+        <span id="simulatorStatus">Start IoT Simulator</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="dashboard-container">
+
+    <!-- KPI Metric Cards (Zone 1) -->
+    <section class="kpi-grid">
+      <!-- Card 1: Health Index -->
+      <div class="kpi-card" id="cardHealth">
+        <div class="kpi-header">
+          <span class="kpi-label">Fleet Health Index</span>
+          <span class="kpi-badge badge-success">Nominal</span>
+        </div>
+        <div class="kpi-body">
+          <div class="kpi-value-group">
+            <span class="kpi-value" id="kpiHealthScore">96.6%</span>
+            <span class="kpi-trend trend-up">↑ 0.4% this week</span>
+          </div>
+          <div class="kpi-progress-bar">
+            <div class="kpi-progress-fill" id="kpiHealthBar" style="width: 96.6%;"></div>
+          </div>
+        </div>
+        <div class="kpi-footer">
+          <span>Target: > 95.0% OEE</span>
+          <span>9,661 / 10,000 Units Stable</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Active Monitored Machines -->
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-label">Active Machines</span>
+          <span class="kpi-badge badge-info">Edge IoT</span>
+        </div>
+        <div class="kpi-body">
+          <div class="kpi-value-group">
+            <span class="kpi-value" id="kpiTotalMachines">10,000</span>
+            <span class="kpi-unit">Online Units</span>
+          </div>
+          <div class="kpi-breakdown">
+            <span class="tag-type tag-l">L: 60%</span>
+            <span class="tag-type tag-m">M: 30%</span>
+            <span class="tag-type tag-h">H: 10%</span>
+          </div>
+        </div>
+        <div class="kpi-footer">
+          <span>Data Warehouse: SQLite Star Schema</span>
+          <span>100% Ingested</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Anomaly & Failures -->
+      <div class="kpi-card danger-accent">
+        <div class="kpi-header">
+          <span class="kpi-label">Anomalies & Failures</span>
+          <span class="kpi-badge badge-danger">3.4% Failure Rate</span>
+        </div>
+        <div class="kpi-body">
+          <div class="kpi-value-group">
+            <span class="kpi-value text-danger" id="kpiFailures">339</span>
+            <span class="kpi-subtext">+ 24 Imminent Risk</span>
+          </div>
+          <p class="kpi-note">Highest Driver: <strong>Heat Dissipation (HDF - 115)</strong></p>
+        </div>
+        <div class="kpi-footer">
+          <span>Action Required: <strong>14 Orders Pending</strong></span>
+          <span class="link-view" onclick="switchTab('tab-orders')">View Alerts →</span>
+        </div>
+      </div>
+
+      <!-- Card 4: Tool Wear Health -->
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-label">Avg Tool Wear</span>
+          <span class="kpi-badge badge-warning">Max 253 min</span>
+        </div>
+        <div class="kpi-body">
+          <div class="kpi-value-group">
+            <span class="kpi-value" id="kpiAvgToolWear">108.0</span>
+            <span class="kpi-unit">minutes</span>
+          </div>
+          <div class="kpi-progress-bar">
+            <div class="kpi-progress-fill fill-warning" style="width: 43.2%;"></div>
+          </div>
+        </div>
+        <div class="kpi-footer">
+          <span>Critical Threshold: > 200 min</span>
+          <span>46 Tool Failures (TWF)</span>
+        </div>
+      </div>
+
+      <!-- Card 5: Fleet Power & Energy -->
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-label">Average Machine Power</span>
+          <span class="kpi-badge badge-primary">P = τ × ω</span>
+        </div>
+        <div class="kpi-body">
+          <div class="kpi-value-group">
+            <span class="kpi-value" id="kpiAvgPower">6.28</span>
+            <span class="kpi-unit">kW</span>
+          </div>
+          <p class="kpi-note">Operating Range: <strong>3.5 kW - 9.0 kW</strong></p>
+        </div>
+        <div class="kpi-footer">
+          <span>95 Power Failures (PWF) detected</span>
+          <span class="text-accent">Safe Envelope 91%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" data-tab="tab-overview" onclick="switchTab('tab-overview')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        Executive Overview & Safe Envelope
+      </button>
+      <button class="tab-btn" data-tab="tab-digital-twin" onclick="switchTab('tab-digital-twin')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+        Real-Time Digital Twin & Live Telemetry
+      </button>
+      <button class="tab-btn" data-tab="tab-orders" onclick="switchTab('tab-orders')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        AI Early-Warning & Work Orders (<span id="alertCountBadge">25</span>)
+      </button>
+    </div>
+
+    <!-- ==================== TAB 1: EXECUTIVE OVERVIEW ==================== -->
+    <div class="tab-content active" id="tab-overview">
+      <div class="charts-grid-top">
+        
+        <!-- Safe Operating Envelope (RPM vs Torque) -->
+        <div class="chart-card card-wide">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Machine Safe Operating Envelope</h3>
+              <p class="card-subtitle">Rotational Speed (RPM) vs Torque (Nm) with Failure Distribution & Power Boundaries</p>
+            </div>
+            <div class="card-actions">
+              <span class="legend-chip chip-normal">● Normal</span>
+              <span class="legend-chip chip-hdf">● HDF (Heat)</span>
+              <span class="legend-chip chip-pwf">● PWF (Power)</span>
+              <span class="legend-chip chip-osf">● OSF (Overstrain)</span>
+              <span class="legend-chip chip-twf">● TWF (Wear)</span>
+            </div>
+          </div>
+          <div class="chart-body" id="chartSafeEnvelope"></div>
+          <div class="card-footer-tip">
+            💡 <strong>AI Observation:</strong> Power Failures (PWF) trigger when Power < 3,500W or > 9,000W. Overstrain (OSF) clusters in high torque combined with elevated tool wear.
+          </div>
+        </div>
+
+        <!-- Failure Modes Breakdown (Donut) -->
+        <div class="chart-card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Failure Mode Breakdown</h3>
+              <p class="card-subtitle">Root Cause Frequency (373 Flagged Instances)</p>
+            </div>
+          </div>
+          <div class="chart-body" id="chartFailureBreakdown"></div>
+          <div class="failure-stats-table">
+            <div class="f-stat-row">
+              <span class="f-code text-hdf">HDF</span>
+              <span class="f-name">Heat Dissipation Failure</span>
+              <span class="f-count">115</span>
+              <span class="badge-high">High</span>
+            </div>
+            <div class="f-stat-row">
+              <span class="f-code text-osf">OSF</span>
+              <span class="f-name">Overstrain Failure</span>
+              <span class="f-count">98</span>
+              <span class="badge-high">High</span>
+            </div>
+            <div class="f-stat-row">
+              <span class="f-code text-pwf">PWF</span>
+              <span class="f-name">Power Failure</span>
+              <span class="f-count">95</span>
+              <span class="badge-crit">Critical</span>
+            </div>
+            <div class="f-stat-row">
+              <span class="f-code text-twf">TWF</span>
+              <span class="f-name">Tool Wear Failure</span>
+              <span class="f-count">46</span>
+              <span class="badge-med">Medium</span>
+            </div>
+            <div class="f-stat-row">
+              <span class="f-code text-rnf">RNF</span>
+              <span class="f-name">Random Failure</span>
+              <span class="f-count">19</span>
+              <span class="badge-low">Low</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Grid Bottom -->
+      <div class="charts-grid-bottom">
+        
+        <!-- Temperature Differential & Telemetry Trend -->
+        <div class="chart-card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Telemetry Sensor Trendline & Thermal Delta</h3>
+              <p class="card-subtitle">Process Temp vs Air Temp (Critical alert when Delta &lt; 8.6 K)</p>
+            </div>
+          </div>
+          <div class="chart-body" id="chartTempTrend"></div>
+        </div>
+
+        <!-- Failure Rate by Product Quality Tier (L, M, H) -->
+        <div class="chart-card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Failure Rate by Quality Tier</h3>
+              <p class="card-subtitle">Comparing Low (60%), Medium (30%), High (10%) Product Variants</p>
+            </div>
+          </div>
+          <div class="chart-body" id="chartProductTiers"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 2: DIGITAL TWIN & REAL-TIME IOT ==================== -->
+    <div class="tab-content" id="tab-digital-twin">
+      <div class="digital-twin-grid">
+        
+        <!-- Left: Live Telemetry Gauges -->
+        <div class="twin-panel">
+          <div class="panel-header">
+            <div>
+              <span class="badge-live"><span class="blink">●</span> LIVE TELEMETRY</span>
+              <h3 class="panel-title">Machine Digital Twin: <span id="currentMachineId" class="text-accent">M14860 (#1)</span></h3>
+            </div>
+            <div class="twin-type-badge" id="currentMachineType">Product Grade: M (Medium)</div>
+          </div>
+
+          <div class="gauges-container">
+            <!-- Gauge 1: RPM -->
+            <div class="gauge-card">
+              <div class="gauge-title">Rotational Speed</div>
+              <div class="gauge-metric"><span id="liveRpm">1,551</span> <small>RPM</small></div>
+              <div class="gauge-meter">
+                <div class="gauge-bar" id="barRpm" style="width: 53%;"></div>
+              </div>
+              <div class="gauge-range"><span>1,168 min</span><span>2,886 max</span></div>
+            </div>
+
+            <!-- Gauge 2: Torque -->
+            <div class="gauge-card">
+              <div class="gauge-title">Torque</div>
+              <div class="gauge-metric"><span id="liveTorque">42.8</span> <small>Nm</small></div>
+              <div class="gauge-meter">
+                <div class="gauge-bar bar-amber" id="barTorque" style="width: 55%;"></div>
+              </div>
+              <div class="gauge-range"><span>3.8 Nm</span><span>76.6 Nm</span></div>
+            </div>
+
+            <!-- Gauge 3: Power -->
+            <div class="gauge-card">
+              <div class="gauge-title">Calculated Power</div>
+              <div class="gauge-metric"><span id="livePower">6.95</span> <small>kW</small></div>
+              <div class="gauge-meter">
+                <div class="gauge-bar bar-cyan" id="barPower" style="width: 66%;"></div>
+              </div>
+              <div class="gauge-range"><span>Envelope: 3.5 - 9.0 kW</span></div>
+            </div>
+
+            <!-- Gauge 4: Tool Wear -->
+            <div class="gauge-card">
+              <div class="gauge-title">Tool Wear Time</div>
+              <div class="gauge-metric"><span id="liveToolWear">0</span> <small>min</small></div>
+              <div class="gauge-meter">
+                <div class="gauge-bar bar-rose" id="barToolWear" style="width: 0%;"></div>
+              </div>
+              <div class="gauge-range"><span>Threshold: 200 min</span></div>
+            </div>
+
+            <!-- Gauge 5: Air & Process Temp -->
+            <div class="gauge-card">
+              <div class="gauge-title">Thermal Dissipation (ΔT)</div>
+              <div class="gauge-metric"><span id="liveTempDiff">10.5</span> <small>K</small></div>
+              <div class="gauge-meter">
+                <div class="gauge-bar bar-emerald" id="barTempDiff" style="width: 75%;"></div>
+              </div>
+              <div class="gauge-range"><span>Safe if ΔT &gt; 8.6 K</span></div>
+            </div>
+
+            <!-- Gauge 6: Anomaly State -->
+            <div class="gauge-card status-gauge" id="liveStatusCard">
+              <div class="gauge-title">AI Machine State</div>
+              <div class="status-indicator-box">
+                <div class="status-glow-icon" id="liveStatusIcon">✔</div>
+                <div class="status-details">
+                  <h4 id="liveStatusText">HEALTHY</h4>
+                  <p id="liveStatusDesc">All telemetry within safe envelope</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Real-Time Waveform Chart -->
+          <div class="realtime-stream-box">
+            <h4 class="stream-title">Live Sensor Waveform (Last 20 Packets)</h4>
+            <div id="chartLiveStream"></div>
+          </div>
+        </div>
+
+        <!-- Right: Streaming Raw Ingestion Packet Log -->
+        <div class="twin-log-panel">
+          <div class="panel-header">
+            <h4 class="panel-title">IoT Telemetry Ingestion Log</h4>
+            <button class="btn btn-sm" onclick="clearLiveLog()">Clear</button>
+          </div>
+          <div class="log-stream-list" id="logStreamList">
+            <!-- Simulated rows dynamically inserted here -->
+            <div class="log-entry log-normal">
+              <span class="log-time">02:30:12</span>
+              <span class="log-id">UDI #1 [M14860]</span>
+              <span class="log-vals">RPM: 1551 | Torq: 42.8 | P: 6.95kW</span>
+              <span class="log-badge badge-success">OK</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 3: WORK ORDERS & ALERTS ==================== -->
+    <div class="tab-content" id="tab-orders">
+      <div class="table-card">
+        <div class="table-header-bar">
+          <div>
+            <h3 class="card-title">Predictive Maintenance Alerts & Work Order Generator</h3>
+            <p class="card-subtitle">Machines flagged with critical sensor anomalies or high failure probability</p>
+          </div>
+          <div class="table-filters">
+            <input type="text" class="input-search" id="alertSearchInput" placeholder="Search Machine ID, Type..." oninput="filterAlerts()" />
+            <select class="select-filter" id="alertFilterMode" onchange="filterAlerts()">
+              <option value="ALL">All Failure Modes</option>
+              <option value="HDF">HDF (Heat Dissipation)</option>
+              <option value="OSF">OSF (Overstrain)</option>
+              <option value="PWF">PWF (Power Failure)</option>
+              <option value="TWF">TWF (Tool Wear)</option>
+              <option value="RNF">RNF (Random Failure)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table" id="alertsTable">
+            <thead>
+              <tr>
+                <th>UDI</th>
+                <th>Product ID</th>
+                <th>Grade</th>
+                <th>RPM / Torque</th>
+                <th>Power (kW)</th>
+                <th>Tool Wear</th>
+                <th>Temp Δ (K)</th>
+                <th>Failure Modes</th>
+                <th>Severity</th>
+                <th>AI Action Recommendation</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="alertsTableBody">
+              <!-- Dynamically populated via app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Work Order Modal -->
+  <div class="modal-backdrop" id="workOrderModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">🛠️ Dispatch Maintenance Work Order</h3>
+        <button class="btn-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-info-box">
+          <p><strong>Target Machine:</strong> <span id="modalMachineId" class="text-accent">--</span> (Grade: <span id="modalGrade">--</span>)</p>
+          <p><strong>Detected Anomalies:</strong> <span id="modalFailureModes" class="text-danger">--</span></p>
+          <p><strong>AI Recommendation:</strong> <span id="modalRecommendation">--</span></p>
+        </div>
+
+        <form id="workOrderForm" onsubmit="submitWorkOrder(event)">
+          <div class="form-group">
+            <label>Assigned Maintenance Team</label>
+            <select class="form-control" required>
+              <option value="Alpha">Team Alpha — Mechanical & Spindle Unit</option>
+              <option value="Beta">Team Beta — Electrical & Power Conditioning</option>
+              <option value="Gamma">Team Gamma — Tooling & Blade Replacement</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Priority Level</label>
+            <select class="form-control" required>
+              <option value="URGENT">🔴 URGENT — Immediate Machine Stoppage</option>
+              <option value="HIGH">🟡 HIGH — Schedule Within Next Shift (4 hrs)</option>
+              <option value="STANDARD">🟢 STANDARD — Next Preventive Maintenance Window</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Technician Instructions / Notes</label>
+            <textarea class="form-control" rows="3" placeholder="Enter specific diagnostic procedure or safety instructions..."></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Confirm & Create Work Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast" id="toastBox">Work Order #WO-2026-081 created successfully!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
